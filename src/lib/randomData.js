@@ -32,7 +32,7 @@ export const randomData = {
     "Tasty Tandoor",
     "Bistro Bliss",
     "Curry Corner",
-    "Pancake Paradise",
+    "CS 82.2A",
     "Pita Panache",
     "Biryani Bliss",
     "Garden Grub",
