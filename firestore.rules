@@ -17,19 +17,23 @@ service cloud.firestore {
     //   - Deletes are not allowed (default)
     match /restaurants/{restaurantId} {
       allow read;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null
-                    && unchanged("name");
+      allow update: if request.resource.data.lastReviewUserId != null;
+     //  allow read;
+     // allow create: if request.auth != null;
+     // allow update: if request.auth != null
+     //               && unchanged("name");
       
         // Ratings:
         //   - Authenticated user can read
         //   - Authenticated user can create if userId matches
         //   - Deletes and updates are not allowed (default)
         match /ratings/{ratingId} {
-          allow read;
-          allow create: if request.auth != null;
-          allow update: if request.auth != null
-                        && request.resource.data.userId == request.auth.uid;
+          allow read; 
+          allow write: if request.resource.data.userId != null;
+          // allow read;
+          //  allow create: if request.auth != null;
+          // allow update: if request.auth != null
+                        // && request.resource.data.userId == request.auth.uid;
       }
     }
   }
