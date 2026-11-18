@@ -10,8 +10,8 @@ import {
   signOut,
   onIdTokenChanged,
 } from "@/src/lib/firebase/auth.js";
-// Import the helper for creating sample restaurant data in Firestore.
-import { addFakeRestaurantsAndReviews } from "@/src/lib/firebase/firestore.js";
+// Import the helper for creating sample class data in Firestore.
+import { addFakeClassesAndReviews } from "@/src/lib/firebase/firestore.js";
 // Import cookie helpers for storing the current user session token.
 import { setCookie, deleteCookie } from "cookies-next";
 
@@ -63,10 +63,9 @@ export default function Header({ initialUser }) {
     <>
       {/* Render the main header element that contains the brand and user menu. */}
       <header>
-        {/* Link back to the home page and show the Friendly Eats logo. */}
+        {/* Link back to the home page and show the site name. */}
         <Link href="/" className="logo">
-          <img src="/friendly-eats.svg" alt="FriendlyEats" />
-          Friendly Eats
+          SRJC Class Reviews
         </Link>
         {/* Show a signed-in profile panel or a prompt to sign in. */}
         {user ? (
@@ -87,8 +86,8 @@ export default function Header({ initialUser }) {
                   <li>{user.displayName}</li>
 
                   <li>
-                    <a href="#" onClick={addFakeRestaurantsAndReviews}>
-                      Add sample restaurants
+                    <a href="#" onClick={addFakeClassesAndReviews}>
+                      Add sample classes
                     </a>
                   </li>
 

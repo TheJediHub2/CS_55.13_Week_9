@@ -1,19 +1,23 @@
-// This component shows restaurant metadata, and offers some actions to the user like uploading a new restaurant image, and adding a review.
+// This component shows class metadata, and offers some actions to the user like uploading a new class image, and adding a review.
 
 import React from "react";
 import renderStars from "@/src/components/Stars.jsx";
 
-const RestaurantDetails = ({
-  restaurant,
+function formatUnits(units) {
+  return `${units} ${Number(units) === 1 ? "unit" : "units"}`;
+}
+
+const ClassDetails = ({
+  course,
   userId,
-  handleRestaurantImage,
+  handleClassImage,
   setIsOpen,
   isOpen,
   children,
 }) => {
   return (
     <section className="img__section">
-      <img src={restaurant.photo} alt={restaurant.name} />
+      <img src={course.photo} alt={course.name} />
 
       <div className="actions">
         {userId && (
@@ -27,7 +31,7 @@ const RestaurantDetails = ({
           />
         )}
         <label
-          onChange={(event) => handleRestaurantImage(event.target)}
+          onChange={(event) => handleClassImage(event.target)}
           htmlFor="upload-image"
           className="add"
         >
@@ -44,18 +48,18 @@ const RestaurantDetails = ({
 
       <div className="details__container">
         <div className="details">
-          <h2>{restaurant.name}</h2>
+          <h2>{course.name}</h2>
 
-          <div className="restaurant__rating">
-            <ul>{renderStars(restaurant.avgRating)}</ul>
+          <div className="class__rating">
+            <ul>{renderStars(course.avgRating)}</ul>
 
-            <span>({restaurant.numRatings})</span>
+            <span>({course.numRatings})</span>
           </div>
 
           <p>
-            {restaurant.category} | {restaurant.city}
+            {course.category} | {course.semester}
           </p>
-          <p>{"$".repeat(restaurant.price)}</p>
+          <p>{formatUnits(course.units)}</p>
           {children}
         </div>
       </div>
@@ -63,4 +67,4 @@ const RestaurantDetails = ({
   );
 };
 
-export default RestaurantDetails;
+export default ClassDetails;

@@ -10,12 +10,12 @@ service cloud.firestore {
   }
 
   match /databases/{database}/documents {
-    // Restaurants:
+    // Classes:
     //   - Authenticated user can read
     //   - Authenticated user can create/update (for demo purposes only)
     //   - Updates are allowed if no fields are added and name is unchanged
     //   - Deletes are not allowed (default)
-    match /restaurants/{restaurantId} {
+    match /classes/{classId} {
       allow read;
       allow update: if request.resource.data.lastReviewUserId != null;
      //  allow read;

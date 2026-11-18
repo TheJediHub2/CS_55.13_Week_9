@@ -1,7 +1,7 @@
 {
   "indexes": [
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -15,7 +15,7 @@
       ]
     },
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -37,17 +37,17 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "price",
+          "fieldPath": "units",
           "order": "ASCENDING"
         }
       ]
     },
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "city",
+          "fieldPath": "semester",
           "order": "ASCENDING"
         },
         {
@@ -57,11 +57,11 @@
       ]
     },
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "city",
+          "fieldPath": "semester",
           "order": "ASCENDING"
         },
         {
@@ -71,25 +71,25 @@
       ]
     },
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "city",
+          "fieldPath": "semester",
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "price",
+          "fieldPath": "units",
           "order": "ASCENDING"
         }
       ]
     },
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "price",
+          "fieldPath": "units",
           "order": "ASCENDING"
         },
         {
@@ -99,11 +99,11 @@
       ]
     },
     {
-      "collectionGroup": "restaurants",
+      "collectionGroup": "classes",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "price",
+          "fieldPath": "units",
           "order": "ASCENDING"
         },
         {

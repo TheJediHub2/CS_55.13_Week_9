@@ -77,14 +77,14 @@ footer {
   }
 
   & .button--cancel {
-    color: rgb(178, 193, 212);
+    color: #005eb8;
     background-color: white;
     border-radius: 3px;
   }
 
   & .button--confirm {
-    background-color: rgb(255 111 0);
-    color: white;
+    background-color: #f2a900;
+    color: #002855;
     border-radius: 3px;
   }
 
@@ -97,7 +97,7 @@ footer {
 }
 
 header {
-  background-color: rgb(56 85 116);
+  background-color: #002855;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -150,13 +150,13 @@ header {
 .menu ul {
   /* display: block; */
   left: calc(-220px * 0.9);
-  color: rgb(42 72 101);
+  color: #002855;
   background-color: white;
   box-shadow: 0 0 10px 0 rgb(0 0 0 / 50%);
 
   & li {
     padding: 10px;
-    border-bottom: 1px solid rgb(42 72 101 / 0.25);
+    border-bottom: 1px solid rgb(0 40 85 / 0.25);
   }
 
   & a {
@@ -165,7 +165,7 @@ header {
   }
 
   & li:has(a):hover {
-    background-color: rgb(42 72 101 / 0.05);
+    background-color: rgb(0 40 85 / 0.05);
   }
 
   & a:visited {
@@ -194,18 +194,18 @@ header {
 }
 
 .main__home {
-  background-color: rgb(178 193 212);
+  background-color: #e7eef6;
   min-height: 100vh;
 }
 
-.main__restaurant {
-  background-color: rgb(229 234 240);
+.main__class {
+  background-color: #e7eef6;
   min-height: 90vh;
 }
 
 article {
   margin: 0 auto;
-  background-color: rgb(229 234 240);
+  background-color: #e7eef6;
   padding: 20px 40px;
 }
 
@@ -213,7 +213,7 @@ article {
   width: 75%;
 }
 
-.restaurants {
+.classes {
   display: grid;
   margin-top: 20px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -257,7 +257,7 @@ a {
   text-decoration: none;
 }
 
-.restaurant__meta {
+.class__meta {
   display: flex;
   font-weight: 500;
   justify-content: space-between;
@@ -265,11 +265,11 @@ a {
   margin-bottom: 10px;
 }
 
-.restaurant__details {
+.class__details {
   padding: 20px;
 }
 
-.restaurant__rating {
+.class__rating {
   padding: 5px 0;
   display: flex;
   align-items: center;
@@ -281,7 +281,7 @@ a {
   & svg {
     width: 2rem;
     height: 2rem;
-    color: rgb(255 202 40);
+    color: #f2a900;
   }
 
   & span {
@@ -289,7 +289,7 @@ a {
   }
 }
 
-.restaurant__review_summary {
+.class__review_summary {
   max-width: "50vw";
   height: "75px";
   padding-top: "10px";
@@ -320,8 +320,8 @@ a {
 }
 
 .details__container {
-  --tw-gradient-from: #c60094 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(56 85 116 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-from: #002855 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(0 94 184 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
   position: absolute;
@@ -363,7 +363,7 @@ a {
     --tw-shadow:
       0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     cursor: pointer;
-    background-color: rgb(255 202 40);
+    background-color: #f2a900;
     border-radius: 0.75rem;
     box-shadow:
       var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
@@ -379,7 +379,7 @@ a {
     box-shadow:
       var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
       var(--tw-shadow);
-    background-color: rgb(255 143 0);
+    background-color: #005eb8;
     border-radius: 9999px;
     cursor: pointer;
     height: 4rem;
@@ -398,7 +398,7 @@ a {
   padding: 20px;
   font-size: 17px;
   border: none;
-  border-bottom: 2px solid rgb(255 111 0);
+  border-bottom: 2px solid #005eb8;
   width: 100%;
 }
 
@@ -429,13 +429,12 @@ a {
 }
 
 .radio-input:checked ~ .radio-label {
-  color: #ffc700;
-  color: gold;
+  color: #f2a900;
 }
 
 .radio-label:hover,
 .radio-label:hover ~ .radio-label {
-  color: goldenrod;
+  color: #c69214;
 }
 
 .radio-input:checked + .radio-label:hover,
@@ -443,7 +442,7 @@ a {
 .radio-input:checked ~ .radio-label:hover,
 .radio-input:checked ~ .radio-label:hover ~ .radio-label,
 .radio-label:hover ~ .radio-input:checked ~ .radio-label {
-  color: darkgoldenrod;
+  color: #8a6a00;
 }
 
 .average-rating {
@@ -465,7 +464,7 @@ a {
   color: rgba(0, 0, 0, 0.2);
   background: linear-gradient(
     90deg,
-    gold var(--percent),
+    #f2a900 var(--percent),
     rgba(0, 0, 0, 0.2) var(--percent)
   );
   -webkit-background-clip: text;
@@ -481,7 +480,7 @@ a {
 .filter-menu {
   background-color: white;
   border-radius: 3px;
-  border-bottom: 1px solid rgb(27 58 87);
+  border-bottom: 1px solid #002855;
 
   & summary {
     font-weight: bold;
@@ -540,7 +539,7 @@ a {
   }
 
   & p:last-child {
-    color: rgb(42 72 101);
+    color: #002855;
     font-weight: 600;
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -564,7 +563,7 @@ a {
     padding-bottom: 0.25rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    background-color: rgb(71 98 130);
+    background-color: #002855;
     border-radius: 9999px;
     color: white;
     font-size: 0.95rem;

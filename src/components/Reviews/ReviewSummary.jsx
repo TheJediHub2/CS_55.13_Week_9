@@ -3,10 +3,10 @@
 
 // Import Genkit, a framework for building AI-powered features.
 import { genkit } from "genkit";
-import { googleAI, gemini } from '@genkit-ai/googleai';
+import { googleAI, gemini } from "@genkit-ai/googleai";
 
-// Import the Firestore helper that retrieves reviews for a restaurant.
-import { getReviewsByRestaurantId } from "@/src/lib/firebase/firestore.js";
+// Import the Firestore helper that retrieves reviews for a class.
+import { getReviewsByClassId } from "@/src/lib/firebase/firestore.js";
 
 // Import the server-side Firebase app helper for authenticated users.
 import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp";
@@ -14,15 +14,15 @@ import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp";
 // Import Firestore's function to create a database instance from a Firebase app.
 import { getFirestore } from "firebase/firestore";
 
-// Export an async React server component that summarizes restaurant reviews.
-export async function GeminiSummary({ restaurantId }) {
+// Export an async React server component that summarizes class reviews.
+export async function GeminiSummary({ classId }) {
   // Get an authenticated Firebase server app for the current user.
   const { firebaseServerApp } = await getAuthenticatedAppForUser();
 
-  // Fetch all reviews for the specified restaurant from Firestore.
-  const reviews = await getReviewsByRestaurantId(
+  // Fetch all reviews for the specified class from Firestore.
+  const reviews = await getReviewsByClassId(
     getFirestore(firebaseServerApp),
-    restaurantId
+    classId
   );
 
   // Define the character used to separate individual reviews in the prompt.
@@ -30,9 +30,9 @@ export async function GeminiSummary({ restaurantId }) {
 
   // Build the prompt containing all review text, separated by the separator character.
   const prompt = `
-    Based on the following restaurant reviews, 
+    Based on the following college class reviews, 
     where each review is separated by a '${reviewSeparator}' character, 
-    create a one-sentence summary of what people think of the restaurant. 
+    create a one-sentence summary of what people think of the class. 
 
 
     Here are the reviews: ${reviews.map((review) => review.text).join(reviewSeparator)}
@@ -51,7 +51,7 @@ export async function GeminiSummary({ restaurantId }) {
     // Configure a Genkit instance with the Google AI plugin and default Gemini model.
     const ai = genkit({
       plugins: [googleAI()],
-      model: gemini('gemini-3.8-flash'), // or actual stable model 
+      model: gemini("gemini-3.8-flash"), // or actual stable model
     });
 
     // Send the prompt to Gemini and extract the generated summary text.
@@ -59,7 +59,7 @@ export async function GeminiSummary({ restaurantId }) {
 
     // Return the AI-generated summary in a styled React component.
     return (
-      <div className="restaurant__review_summary">
+      <div className="class__review_summary">
         <p>{text}</p>
         <p>✨ Summarized with Gemini</p>
       </div>
@@ -76,7 +76,7 @@ export async function GeminiSummary({ restaurantId }) {
 // Export a loading placeholder component shown while reviews are being summarized.
 export function GeminiSummarySkeleton() {
   return (
-    <div className="restaurant__review_summary">
+    <div className="class__review_summary">
       <p>✨ Summarizing reviews with Gemini...</p>
     </div>
   );

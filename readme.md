@@ -1,4 +1,4 @@
-### Friendly Eats with Next.js + Firebase
+### SRJC Class Reviews with Next.js + Firebase
 
 The codelab has the full instructions, but as a quick start, you can do this.
 
@@ -24,4 +24,6 @@ npm run dev
 #### Use the application
 
 1. While on `http://localhost:3000/` within your browser, click the "Sign in" button in the top right corner and sign in.
-2. In the dropdown menu in the top right menu, select "Add sample restaurants".
+2. In the dropdown menu in the top right menu, select "Add sample classes".
+
+Classes already stored in the old `restaurants` collection will not appear. Add sample classes again after this change, and restart the Firestore emulator so the `classes` indexes are used.

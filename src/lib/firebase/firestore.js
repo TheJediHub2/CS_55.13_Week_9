@@ -1,5 +1,5 @@
-// Import a helper that generates sample restaurant and review data.
-import { generateFakeRestaurantsAndReviews } from "@/src/lib/fakeRestaurants.js";
+// Import a helper that generates sample class and review data.
+import { generateFakeClassesAndReviews } from "@/src/lib/fakeClasses.js";
 
 // Import Firestore functions for querying, reading, writing, and listening to database data.
 import {
@@ -15,38 +15,34 @@ import {
   runTransaction,
   where,
   addDoc,
-  getFirestore,
 } from "firebase/firestore";
 
 // Import the shared Firestore database instance.
 import { db } from "@/src/lib/firebase/clientApp";
 
-// Export an async function that updates a restaurant's image URL.
-export async function updateRestaurantImageReference(
-  restaurantId,
-  publicImageUrl
-) {
-  // Create a reference to the specific restaurant document by ID.
-  const restaurantRef = doc(collection(db, "restaurants"), restaurantId);
+// Export an async function that updates a class's image URL.
+export async function updateClassImageReference(classId, publicImageUrl) {
+  // Create a reference to the specific class document by ID.
+  const classRef = doc(collection(db, "classes"), classId);
 
   // If the document reference exists, update its photo field.
-  if (restaurantRef) {
-    await updateDoc(restaurantRef, { photo: publicImageUrl });
+  if (classRef) {
+    await updateDoc(classRef, { photo: publicImageUrl });
   }
 }
 
-// Define an async helper that updates restaurant ratings and creates a new review.
+// Define an async helper that updates class ratings and creates a new review.
 const updateWithRating = async (
   transaction,
   docRef,
   newRatingDocument,
   review
 ) => {
-  // Read the current restaurant document within the transaction.
-  const restaurant = await transaction.get(docRef);
+  // Read the current class document within the transaction.
+  const course = await transaction.get(docRef);
 
-  // Get the restaurant's current data.
-  const data = restaurant.data();
+  // Get the class's current data.
+  const data = course.data();
 
   // Calculate the new total number of ratings, defaulting to 1 if none exist.
   const newNumRatings = data?.numRatings ? data.numRatings + 1 : 1;
@@ -57,7 +53,7 @@ const updateWithRating = async (
   // Calculate the new average rating.
   const newAverage = newSumRating / newNumRatings;
 
-  // Update the restaurant document with the new rating statistics.
+  // Update the class document with the new rating statistics.
   transaction.update(docRef, {
     numRatings: newNumRatings,
     sumRating: newSumRating,
@@ -73,11 +69,11 @@ const updateWithRating = async (
   });
 };
 
-// Export an async function that adds a review to a restaurant.
-export async function addReviewToRestaurant(db, restaurantId, review) {
-  // Throw an error if no restaurant ID was provided.
-  if (!restaurantId) {
-    throw new Error("No restaurant ID has been provided.");
+// Export an async function that adds a review to a class.
+export async function addReviewToClass(db, classId, review) {
+  // Throw an error if no class ID was provided.
+  if (!classId) {
+    throw new Error("No class ID has been provided.");
   }
 
   // Throw an error if no valid review was provided.
@@ -86,43 +82,38 @@ export async function addReviewToRestaurant(db, restaurantId, review) {
   }
 
   try {
-    // Create a reference to the restaurant document.
-    const docRef = doc(collection(db, "restaurants"), restaurantId);
+    // Create a reference to the class document.
+    const docRef = doc(collection(db, "classes"), classId);
 
-    // Create a reference for a new review document in the restaurant's ratings collection.
-    const newRatingDocument = doc(
-      collection(db, `restaurants/${restaurantId}/ratings`),
-    );
+    // Create a reference for a new review document in the class's ratings collection.
+    const newRatingDocument = doc(collection(db, `classes/${classId}/ratings`));
 
     // Run a transaction that updates rating totals and adds the review atomically.
     await runTransaction(db, (transaction) =>
-      updateWithRating(transaction, docRef, newRatingDocument, review),
+      updateWithRating(transaction, docRef, newRatingDocument, review)
     );
   } catch (error) {
     // Log and rethrow any error that occurs while adding the review.
-    console.error(
-      "There was an error adding the rating to the restaurant",
-      error,
-    );
+    console.error("There was an error adding the rating to the class", error);
     throw error;
   }
 }
 
 // Define a helper that adds filters and sorting to a Firestore query.
-function applyQueryFilters(q, { category, city, price, sort }) {
+function applyQueryFilters(q, { category, semester, units, sort }) {
   // Filter by category if one is provided.
   if (category) {
     q = query(q, where("category", "==", category));
   }
 
-  // Filter by city if one is provided.
-  if (city) {
-    q = query(q, where("city", "==", city));
+  // Filter by semester if one is provided.
+  if (semester) {
+    q = query(q, where("semester", "==", semester));
   }
 
-  // Filter by price level if one is provided.
-  if (price) {
-    q = query(q, where("price", "==", price.length));
+  // Filter by units if a number of units is provided.
+  if (units) {
+    q = query(q, where("units", "==", Number(units)));
   }
 
   // Sort by average rating by default or when "Rating" is selected.
@@ -137,10 +128,10 @@ function applyQueryFilters(q, { category, city, price, sort }) {
   return q;
 }
 
-// Export an async function that fetches restaurants once, with optional filters.
-export async function getRestaurants(db = db, filters = {}) {
-  // Start with a query for all restaurant documents.
-  let q = query(collection(db, "restaurants"));
+// Export an async function that fetches classes once, with optional filters.
+export async function getClasses(db = db, filters = {}) {
+  // Start with a query for all class documents.
+  let q = query(collection(db, "classes"));
 
   // Apply any requested filters and sorting.
   q = applyQueryFilters(q, filters);
@@ -159,16 +150,16 @@ export async function getRestaurants(db = db, filters = {}) {
   });
 }
 
-// Export a function that listens for live updates to the restaurant list.
-export function getRestaurantsSnapshot(cb, filters = {}) {
+// Export a function that listens for live updates to the class list.
+export function getClassesSnapshot(cb, filters = {}) {
   // Validate that the callback is a function.
   if (typeof cb !== "function") {
     console.log("Error: The callback parameter is not a function");
     return;
   }
 
-  // Start with a query for all restaurant documents.
-  let q = query(collection(db, "restaurants"));
+  // Start with a query for all class documents.
+  let q = query(collection(db, "classes"));
 
   // Apply any requested filters and sorting.
   q = applyQueryFilters(q, filters);
@@ -185,17 +176,17 @@ export function getRestaurantsSnapshot(cb, filters = {}) {
       };
     });
 
-    // Pass the latest restaurant list to the callback.
+    // Pass the latest class list to the callback.
     cb(results);
   });
 }
 
-export async function getRestaurantById(db, restaurantId) {
-  if (!restaurantId) {
-    console.log("Error: Invalid ID received: ", restaurantId);
+export async function getClassById(db, classId) {
+  if (!classId) {
+    console.log("Error: Invalid ID received: ", classId);
     return;
   }
-  const docRef = doc(db, "restaurants", restaurantId);
+  const docRef = doc(db, "classes", classId);
   const docSnap = await getDoc(docRef);
   return {
     ...docSnap.data(),
@@ -203,11 +194,11 @@ export async function getRestaurantById(db, restaurantId) {
   };
 }
 
-// Export a function that listens for live updates to one restaurant.
-export function getRestaurantSnapshotById(restaurantId, cb) {
-  // Validate that a restaurant ID was provided.
-  if (!restaurantId) {
-    console.log("Error: Invalid ID received: ", restaurantId);
+// Export a function that listens for live updates to one class.
+export function getClassSnapshotById(classId, cb) {
+  // Validate that a class ID was provided.
+  if (!classId) {
+    console.log("Error: Invalid ID received: ", classId);
     return;
   }
 
@@ -217,12 +208,12 @@ export function getRestaurantSnapshotById(restaurantId, cb) {
     return;
   }
 
-  // Create a reference to the specified restaurant document.
-  const docRef = doc(db, "restaurants", restaurantId);
+  // Create a reference to the specified class document.
+  const docRef = doc(db, "classes", classId);
 
   // Subscribe to real-time updates for that document.
   return onSnapshot(docRef, (docSnap) => {
-    // Pass the restaurant data to the callback with its timestamp converted.
+    // Pass the class data to the callback with its timestamp converted.
     cb({
       ...docSnap.data(),
       timestamp: docSnap.data().timestamp.toDate(),
@@ -230,17 +221,17 @@ export function getRestaurantSnapshotById(restaurantId, cb) {
   });
 }
 
-// Export an async function that fetches all reviews for a restaurant.
-export async function getReviewsByRestaurantId(db, restaurantId) {
-  // Validate the restaurant ID.
-  if (!restaurantId) {
-    console.log("Error: Invalid restaurantId received: ", restaurantId);
+// Export an async function that fetches all reviews for a class.
+export async function getReviewsByClassId(db, classId) {
+  // Validate the class ID.
+  if (!classId) {
+    console.log("Error: Invalid classId received: ", classId);
     return;
   }
 
-  // Create a query for the restaurant's reviews, sorted newest first.
+  // Create a query for the class's reviews, sorted newest first.
   const q = query(
-    collection(db, "restaurants", restaurantId, "ratings"),
+    collection(db, "classes", classId, "ratings"),
     orderBy("timestamp", "desc")
   );
 
@@ -257,17 +248,17 @@ export async function getReviewsByRestaurantId(db, restaurantId) {
   });
 }
 
-// Export a function that listens for live updates to a restaurant's reviews.
-export function getReviewsSnapshotByRestaurantId(restaurantId, cb) {
-  // Validate the restaurant ID.
-  if (!restaurantId) {
-    console.log("Error: Invalid restaurantId received: ", restaurantId);
+// Export a function that listens for live updates to a class's reviews.
+export function getReviewsSnapshotByClassId(classId, cb) {
+  // Validate the class ID.
+  if (!classId) {
+    console.log("Error: Invalid classId received: ", classId);
     return;
   }
 
-  // Create a query for the restaurant's reviews, sorted newest first.
+  // Create a query for the class's reviews, sorted newest first.
   const q = query(
-    collection(db, "restaurants", restaurantId, "ratings"),
+    collection(db, "classes", classId, "ratings"),
     orderBy("timestamp", "desc")
   );
 
@@ -287,25 +278,22 @@ export function getReviewsSnapshotByRestaurantId(restaurantId, cb) {
   });
 }
 
-// Export an async function that adds sample restaurants and reviews to Firestore.
-export async function addFakeRestaurantsAndReviews() {
-  // Generate the sample restaurant and review data.
-  const data = await generateFakeRestaurantsAndReviews();
+// Export an async function that adds sample classes and reviews to Firestore.
+export async function addFakeClassesAndReviews() {
+  // Generate the sample class and review data.
+  const data = await generateFakeClassesAndReviews();
 
-  // Loop through each generated restaurant and its reviews.
-  for (const { restaurantData, ratingsData } of data) {
+  // Loop through each generated class and its reviews.
+  for (const { classData, ratingsData } of data) {
     try {
-      // Add the restaurant document and get its generated ID.
-      const docRef = await addDoc(
-        collection(db, "restaurants"),
-        restaurantData
-      );
+      // Add the class document and get its generated ID.
+      const docRef = await addDoc(collection(db, "classes"), classData);
 
-      // Loop through the reviews associated with that restaurant.
+      // Loop through the reviews associated with that class.
       for (const ratingData of ratingsData) {
-        // Add each review to the restaurant's ratings collection.
+        // Add each review to the class's ratings collection.
         await addDoc(
-          collection(db, "restaurants", docRef.id, "ratings"),
+          collection(db, "classes", docRef.id, "ratings"),
           ratingData
         );
       }

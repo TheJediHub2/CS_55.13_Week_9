@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Class placeholder">
+  <rect width="800" height="600" fill="#002855"/>
+  <rect x="70" y="80" width="660" height="440" rx="28" fill="#005EB8"/>
+  <rect x="130" y="150" width="540" height="28" rx="8" fill="#F2A900"/>
+  <rect x="130" y="214" width="430" height="16" rx="8" fill="#E7EEF6"/>
+  <rect x="130" y="254" width="360" height="16" rx="8" fill="#E7EEF6"/>
+  <rect x="130" y="294" width="400" height="16" rx="8" fill="#E7EEF6"/>
+  <text x="400" y="430" text-anchor="middle" fill="#F2A900" font-family="Roboto, sans-serif" font-size="48" font-weight="700">SRJC</text>
+</svg>

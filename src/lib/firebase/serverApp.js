@@ -4,7 +4,8 @@ import "server-only";
 
 // Import the server-side cookie API and Firebase app initialization helpers.
 import { cookies } from "next/headers";
-import { initializeServerApp, initializeApp } from "firebase/app";
+import { initializeServerApp } from "firebase/app";
+import { firebaseConfig } from "@/src/lib/firebase/config.js";
 
 // Import the Firebase Auth helper used to access the authenticated user state.
 import { getAuth } from "firebase/auth";
@@ -14,15 +15,11 @@ export async function getAuthenticatedAppForUser() {
   // Read the session cookie that stores the user's ID token from the client-side auth flow.
   const authIdToken = (await cookies()).get("__session")?.value;
 
-  // Initialize a Firebase server app using the default app settings and the current auth token.
-  const firebaseServerApp = initializeServerApp(
-    // Create a default Firebase app instance for the server environment.
-    initializeApp(),
-    {
-      // Attach the user's auth ID token so Firebase can restore the correct session.
-      authIdToken,
-    }
-  );
+  // Initialize a Firebase server app with the .env.local config and the current auth token.
+  const firebaseServerApp = initializeServerApp(firebaseConfig, {
+    // Attach the user's auth ID token so Firebase can restore the correct session.
+    authIdToken,
+  });
 
   // Get the Firebase Auth instance associated with the server app.
   const auth = getAuth(firebaseServerApp);

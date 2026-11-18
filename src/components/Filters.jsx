@@ -1,6 +1,7 @@
-// The filters shown on the restaurant listings page
+// The filters shown on the class listings page
 
 import Tag from "@/src/components/Tag.jsx";
+import { classCategories, semester } from "@/src/lib/randomData.js";
 
 function FilterSelect({ label, options, value, onChange, name, icon }) {
   return (
@@ -38,7 +39,7 @@ export default function Filters({ filters, setFilters }) {
         <summary>
           <img src="/filter.svg" alt="filter" />
           <div>
-            <p>Restaurants</p>
+            <p>Classes</p>
             <p>Sorted by {filters.sort || "Rating"}</p>
           </div>
         </summary>
@@ -52,22 +53,7 @@ export default function Filters({ filters, setFilters }) {
         >
           <FilterSelect
             label="Category"
-            options={[
-              "",
-              "Italian",
-              "Chinese",
-              "Japanese",
-              "Mexican",
-              "Indian",
-              "Mediterranean",
-              "Caribbean",
-              "Cajun",
-              "German",
-              "Russian",
-              "Cuban",
-              "Organic",
-              "Tapas",
-            ]}
+            options={["", ...classCategories]}
             value={filters.category}
             onChange={(event) => handleSelectionChange(event, "category")}
             name="category"
@@ -75,33 +61,20 @@ export default function Filters({ filters, setFilters }) {
           />
 
           <FilterSelect
-            label="City"
-            options={[
-              "",
-              "New York",
-              "Los Angeles",
-              "London",
-              "Paris",
-              "Tokyo",
-              "Mumbai",
-              "Dubai",
-              "Amsterdam",
-              "Seoul",
-              "Singapore",
-              "Istanbul",
-            ]}
-            value={filters.city}
-            onChange={(event) => handleSelectionChange(event, "city")}
-            name="city"
+            label="Semester"
+            options={["", ...semester]}
+            value={filters.semester}
+            onChange={(event) => handleSelectionChange(event, "semester")}
+            name="semester"
             icon="/location.svg"
           />
 
           <FilterSelect
-            label="Price"
-            options={["", "$", "$$", "$$$", "$$$$"]}
-            value={filters.price}
-            onChange={(event) => handleSelectionChange(event, "price")}
-            name="price"
+            label="Units"
+            options={["", "1", "2", "3", "4"]}
+            value={filters.units}
+            onChange={(event) => handleSelectionChange(event, "units")}
+            name="units"
             icon="/price.svg"
           />
 
@@ -121,9 +94,9 @@ export default function Filters({ filters, setFilters }) {
                 type="reset"
                 onClick={() => {
                   setFilters({
-                    city: "",
+                    semester: "",
                     category: "",
-                    price: "",
+                    units: "",
                     sort: "",
                   });
                 }}

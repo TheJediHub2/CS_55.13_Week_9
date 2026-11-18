@@ -70,8 +70,8 @@ const ReviewDialog = ({
             />
           </p>
 
-          {/* Include the restaurant ID in the form submission without displaying it. */}
-          <input type="hidden" name="restaurantId" value={id} />
+          {/* Include the class ID in the form submission without displaying it. */}
+          <input type="hidden" name="classId" value={id} />
 
           {/* Include the user ID in the form submission without displaying it. */}
           <input type="hidden" name="userId" value={userId} />

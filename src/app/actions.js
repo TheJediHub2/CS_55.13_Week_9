@@ -1,6 +1,6 @@
 "use server";
 
-import { addReviewToRestaurant } from "@/src/lib/firebase/firestore.js";
+import { addReviewToClass } from "@/src/lib/firebase/firestore.js";
 import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp.js";
 import { getFirestore } from "firebase/firestore";
 
@@ -11,7 +11,7 @@ export async function handleReviewFormSubmission(data) {
   const { firebaseServerApp, currentUser } = await getAuthenticatedAppForUser();
   const db = getFirestore(firebaseServerApp);
 
-  await addReviewToRestaurant(db, data.get("restaurantId"), {
+  await addReviewToClass(db, data.get("classId"), {
     text: data.get("text"),
     rating: data.get("rating"),
 
